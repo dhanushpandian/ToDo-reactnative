@@ -4,11 +4,20 @@ import List from './app/screens/List';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Details from './app/screens/Details';
+import { onAuthStateChanged } from 'firebase/auth';
+import { FIREBASE_AUTH } from './firebaseConfig';
 
 const Stack = createNativeStackNavigator();
 
-
 export default function App() {
+  // onAuthStateChanged(FIREBASE_AUTH,(user)=>{
+  //   if(user){
+  
+  //   }
+  //   else{
+  
+  //   }
+  // })
   return (
     <NavigationContainer>
       <Stack.Navigator>
