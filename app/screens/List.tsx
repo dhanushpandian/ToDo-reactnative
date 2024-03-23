@@ -1,7 +1,7 @@
 import { View, Text, Button, StyleSheet, TextInput, FlatList, Touchable, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FIRESTORE_DB } from '../../firebaseConfig';
-import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, Firestore, onSnapshot, updateDoc } from 'firebase/firestore';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Entypo } from '@expo/vector-icons';
 export interface TODO{
@@ -50,20 +50,22 @@ const List = ({ navigation }: any) => {
   };
 
   const rendertodo=({item}:any)=>{
+    const ref=doc(FIRESTORE_DB,`todos/${item.id}`);
     const toggleDone=async()=>{
-
+      updateDoc(ref,{done: !item.done});
     }
     const deleteItem=async()=>{
-
+      deleteDoc(ref);
     }
     return(
-     <View>
-      <TouchableOpacity onPress={toggleDone}>
-        {item.done && <Ionicons name="md-checkmark-circle"/>}
-        {!item.done && <Entypo />}
-        <Text>{item.title}</Text>
+      <View style={styles.todocontainer}>
+      <TouchableOpacity onPress={toggleDone} style={styles.todo}>
+        {item.done && <Ionicons name="md-checkmark-circle" />}
+        {!item.done && <Entypo name='circle' size={24} color="black" />}
+        <Text style={styles.todotext}>{item.title}</Text>
       </TouchableOpacity>
-     </View>
+      <Ionicons name="trash-bin-outline" size={24} color="red" onPress={deleteItem} />
+    </View>
     )
   }
   return (
@@ -73,7 +75,7 @@ const List = ({ navigation }: any) => {
         <Button title="add" onPress={addTodo} disabled={todo === ''} />
       </View>
       {todos.length > 0 &&(
-        <FlatList data={todo} renderItem={(item)=>rendertodo(item)} keyExtractor={(todo:TODO)=>todo.id} />
+        <FlatList data={todos} renderItem={(item) => rendertodo(item)} keyExtractor={(todo: TODO) => todo.id} />
       )}
     </View>
   );
@@ -96,5 +98,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     backgroundColor: '#fff',
+  },
+  todocontainer:{
+    flexDirection: 'row',
+    alignItems:'center',
+    backgroundColor:'#ffff',
+    padding:10,
+    marginVertical:4
+  },
+  todotext:{
+    flex:1,
+    paddingHorizontal:8
+  },
+  todo:{
+    flex:1,
+    flexDirection:'row',
+    alignItems:'center',
+
   }
 });
