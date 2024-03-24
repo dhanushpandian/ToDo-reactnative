@@ -6,23 +6,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import Details from './app/screens/Details';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './firebaseConfig';
+import Login from './app/screens/Login';
+import { useEffect, useState } from 'react';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // onAuthStateChanged(FIREBASE_AUTH,(user)=>{
-  //   if(user){
-  
-  //   }
-  //   else{
-  
-  //   }
-  // })
+  const [authenticated,setauthenticated]=useState(false);  
+  useEffect(()=>{
+    onAuthStateChanged
+  })
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen name="todo" component={List} />
-      <Stack.Screen name="details" component={Details} />
+      <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
 
     </NavigationContainer>

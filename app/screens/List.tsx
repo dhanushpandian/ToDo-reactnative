@@ -4,6 +4,7 @@ import { FIRESTORE_DB } from '../../firebaseConfig';
 import { addDoc, collection, deleteDoc, doc, Firestore, onSnapshot, updateDoc } from 'firebase/firestore';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 export interface TODO{
   title:string,
   done:boolean,
@@ -60,7 +61,7 @@ const List = ({ navigation }: any) => {
     return(
       <View style={styles.todocontainer}>
       <TouchableOpacity onPress={toggleDone} style={styles.todo}>
-        {item.done && <Ionicons name="md-checkmark-circle" />}
+        {item.done && <AntDesign name="checkcircle" size={24} color="green" />}
         {!item.done && <Entypo name='circle' size={24} color="black" />}
         <Text style={styles.todotext}>{item.title}</Text>
       </TouchableOpacity>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   form: {
-    marginVertical: 20,
+    marginVertical: 18,
     flexDirection: 'row',
     alignItems: 'center',
   },
